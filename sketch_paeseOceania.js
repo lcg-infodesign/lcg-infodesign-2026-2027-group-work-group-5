@@ -77,7 +77,7 @@ function draw() {
   if (valorePercentualeSotto18) { // controlla se esiste una percentuale valida
     testoValoreSotto18 = valorePercentualeSotto18 + "%"; // se c'è, aggiunge il simbolo percentuale
   } else {
-    testoValoreSotto18 = "dato non disponibile"; // altrimenti scrive che non ci sono dati
+    testoValoreSotto18 = "0%"; // altrimenti scrive che non ci sono dati
   }
 
   textSize(14);
@@ -90,7 +90,7 @@ function draw() {
   if (valorePercentualeSotto15) { 
     testoValoreSotto15 = valorePercentualeSotto15 + "%"; 
   } else {
-    testoValoreSotto15 = "dato non disponibile"; 
+    testoValoreSotto15 = "0%"; 
   }
 
   textSize(14);
