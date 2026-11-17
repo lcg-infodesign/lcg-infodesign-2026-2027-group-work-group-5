@@ -1,7 +1,7 @@
 let myTable;
 let selectedCountry = "";
-let valorePercentualeFemmine = 0;
-let valorePercentualeMaschi = 0;
+let valorePercentualeSotto18 = 0;
+let valorePercentualeSotto15 = 0;
 
 
 function preload() {
@@ -35,7 +35,6 @@ function percentualePaese() {
 
       //controlla che tutti i parametri ci siano contemporaneamente
       if (area === selectedCountry && 
-          indicatorVal === "Married by 18" && 
           measureVal === "Percent" &&  //quando la misura è in percentuale e NON in numero assoluto (che c'è anche quello nel csv)
           disaggregationVal === "Total") { //quindi quando voglio considerare il totale, NON le sottocategorie tipo rural o richest
         
@@ -44,11 +43,11 @@ function percentualePaese() {
         let valNumero = parseFloat(valStringa); //parseFloat è una funzione che converte una stringa in numero decimale
         
         if (Number.isFinite(valNumero)) { //controlla che il valore sia un numero finito , escludendo NaN, null e vuoti
-          if (sexVal === "Women") {
-            valorePercentualeFemmine = valNumero; //se il numero è valido la funzione guarda la colonna sex --> se è women salva il numero in valorePercentualeFemmine
+          if (sexVal === "Women" && indicatorVal === "Married by 18") {
+            valorePercentualeSotto18 = valNumero; //se il numero è valido la funzione guarda la colonna sex --> se è women salva il numero in valorePercentualeFemmine
           }
-          if (sexVal === "Men") {
-            valorePercentualeMaschi = valNumero; //se è men lo salva in valorePercentualeMaschi
+          if (sexVal === "Women" && indicatorVal === "Married by 15") {
+            valorePercentualeSotto15 = valNumero; //salva il dato relativo alle femmine sotto i 15 anni
           }
         }
       }
@@ -74,36 +73,36 @@ function draw() {
   textAlign(LEFT, TOP);
   text(nomePaese, 60, 60);
 
-  /* TESTO FEMMINE */
-  let testoValoreFemmine = "";
+  //testo femmine sotto i 18
+  let testoValoreSotto18 = "";
 
-  if (valorePercentualeFemmine) { // controlla se esiste una percentuale valida
-    testoValoreFemmine = valorePercentualeFemmine + "%"; // se c'è, aggiunge il simbolo percentuale
+  if (valorePercentualeSotto18) { // controlla se esiste una percentuale valida
+    testoValoreSotto18 = valorePercentualeSotto18 + "%"; // se c'è, aggiunge il simbolo percentuale
     } else {
-    testoValoreFemmine = "dato non disponibile"; // altrimenti scrive che non ci sono dati
+    testoValoreSotto18 = "dato non disponibile"; // altrimenti scrive che non ci sono dati
   }
 
   textSize(14);
   fill(180);
-  text("Matrimoni precoci che coinvolgono femmine sotto i 18 anni: " + testoValoreFemmine, 60, 110);
+  text("Matrimoni precoci che coinvolgono femmine sotto i 18 anni: " + testoValoreSotto18, 60, 110);
 
-  /* TESTO MASCHI */
-  let testoValoreMaschi = "";
+  //testo femmine sotto i 15
+  let testoValoreSotto15 = "";
 
-  if (valorePercentualeMaschi) { 
-    testoValoreMaschi = valorePercentualeMaschi + "%"; 
+  if (valorePercentualeSotto15) { 
+    testoValoreSotto15 = valorePercentualeSotto15 + "%"; 
   } else {
-    testoValoreMaschi = "dato non disponibile"; 
+    testoValoreSotto15 = "dato non disponibile"; 
   }
 
   textSize(14);
   fill(180);
-  text("Matrimoni precoci che coinvolgono maschi sotto i 18 anni: " + testoValoreMaschi, 60, 135);
+  text("Matrimoni precoci che coinvolgono femmine sotto i 15 anni: " + testoValoreSotto15, 60, 135);
 
 
   //pallini
   let centerX = width / 2;
-  let centerY = height / 2 + 30; //+30 così il pallino è centrato considerata anche la scritta sopra
+  let centerY = height / 2 + 10; //centrato leggermente per fare spazio alla legenda in basso
   let diametroPallino = 26;
   let spacing = 32; //spazio tra le colonne di pallini
 
@@ -139,12 +138,10 @@ function draw() {
   let pallini100 = tuttiICerchi.slice(0, 100); //.slice(0, 100) prende la lista e taglia via tutto ciò che viene dopo il centesimo elemento
   // cosi la variabile pallini100 ha i 100 pallini più vicini al centro geometrico del cerchio, scartando i pallini in eccesso (perchè in tutto sarebbero 121, 11*11) --> così la figura è un cerchio e non un quadrato !
 
-
-  /* CURVA FEMMINE */
-  // calcoliamo come colorare i pallini rispetto a una curva che attraversa la biglia
-
+//curva 
   //variabile per decidere quanti pallini colorare su un totale di 100 pallini
-  let palliniColorati = round(valorePercentualeFemmine); //round arrotornda il numero all'intero più vicino (per poi colorare quel nuemro di pallini su 100)
+  let palliniColoratiSotto18 = round(valorePercentualeSotto18); //round arrotornda il numero all'intero più vicino (per poi colorare quel nuemro di pallini su 100)
+  let palliniColoratiSotto15 = round(valorePercentualeSotto15); //quanti di quei pallini sono anche sotto i 15 anni
 
   for (let i = 0; i < pallini100.length; i++) {
     let p = pallini100[i]; // scegliamo un solo pallino tra i 100 usando l'indice i
@@ -163,50 +160,54 @@ function draw() {
   pallini100.sort((a, b) => a.distCurva - b.distCurva); //stessa cosa dell'ordine dei pallini ma non si tratta di vicinanza al centro ma alla curva
 
   for (let i = 0; i < pallini100.length; i++) {
-    pallini100[i].isFemmina = (i < palliniColorati); // la proprietà isFemmina potrà valere solo true o false
+    pallini100[i].isSotto18 = (i < palliniColoratiSotto18); // la proprietà isFemmina potrà valere solo true o false
     //(i < palliniColorati) è una condizione di confronto booleana: i è l'indice di ciasscun pallino (da 0 a 99), palliniColorati è il numero totale di pallini che dobbiamo colorare (tipo se in Angola la percentuale delle ragazze è 23%, palliniColorati sarà 23).
-  } //se il valore è maggiore, allora la condizione è falsa  e i pallini non si coloreranno
+    //se il valore è maggiore, allora la condizione è falsa  e i pallini non si coloreranno
 
-
-  /* CURVA MASCHI */
-
-  //fa la stessa cosa fatta per le femmine ma col meno davanti al seno quindi crea un'onda speculare
-  let palliniColoratiMaschi = round(valorePercentualeMaschi);
-
-  for (let i = 0; i < pallini100.length; i++) {
-    let p = pallini100[i];
-    let normalX = map(p.x, centerX - raggioCerchio, centerX + raggioCerchio, -PI, PI);
-    let curvaYMaschi = centerY - sin(normalX) * 35; 
-    p.distCurvaMaschi = abs(p.y - curvaYMaschi);
+    //visto che l'array è già ordinato dal più vicino alla curva al più lontano, i primi pallini sono automaticamente anche i più vicini per le sotto i 15 anni
+    pallini100[i].isSotto15 = (i < palliniColoratiSotto15); 
   }
-
-  pallini100.sort((a, b) => a.distCurvaMaschi - b.distCurvaMaschi);
   
-  for (let i = 0; i < pallini100.length; i++) {
-    pallini100[i].isMaschio = (i < palliniColoratiMaschi);
-  }
-
-
-  /* DISEGNO PALLINI */
+  //disegno pallini
   for (let i = 0; i < pallini100.length; i++) {
     let p = pallini100[i];
 
-    // i primi N pallini (quindi quelli più vicini alla curva trasparente) formano la curva colorata
-    if (p.isFemmina) {
-      fill('#4E8A75'); //se i pallini fanno parte di quelli che vanno colorati (sia perchè solo la percentuale giusta che perchè sono vicini alla curva), allora sono verdi
+    // Se il pallino fa parte delle sotto i 15, si sovrappone ed è più scuro
+    if (p.isSotto15) {
+      fill('#1B4332'); 
+      stroke('#1B4332');
+    } else if (p.isSotto18) {
+      fill('#4E8A75'); 
       stroke('#4E8A75');
-    } else if (p.isMaschio) {
-      fill('#885A89');
-      stroke('#885A89');
     } else {
       fill(35, 45, 60);
-      stroke('#A0AAB2');
+      noStroke();
     }
 
     //disegno del pallino in generale, il fill è scritto sopra
     strokeWeight(1.5);
     circle(p.x, p.y, diametroPallino);
   }
+
+
+  /* DISEGNO LEGENDA */
+  let legendX = centerX - 180;
+  let legendY = centerY + raggioCerchio + 45;
+
+  // Elemento Legenda 1: Sotto i 18 anni
+  noStroke();
+  fill('#4E8A75');
+  circle(legendX, legendY, 16);
+  fill(200);
+  textSize(13);
+  textAlign(LEFT, CENTER);
+  text("Minori di 18 anni", legendX + 20, legendY);
+
+  // Elemento Legenda 2: Sotto i 15 anni (Sottogruppo)
+  fill('#1B4332');
+  circle(legendX + 180, legendY, 16);
+  fill(200);
+  text("Minori di 15 anni (sottogruppo)", legendX + 200, legendY);
 }
 
 function windowResized() {
