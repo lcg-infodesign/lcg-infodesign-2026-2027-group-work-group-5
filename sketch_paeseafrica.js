@@ -160,12 +160,12 @@ function draw() {
   }
 
   // ordiniamo i pallini in base alla vicinanza a questa curva fluida (che ancora è trastarente! stiamo decidendo i pallini che POI verranno colorati )
-  pallini100.sort((a, b) => a.distCurva - b.distCurva); //arrow da capire !
+  pallini100.sort((a, b) => a.distCurva - b.distCurva); //stessa cosa dell'ordine dei pallini ma non si tratta di vicinanza al centro ma alla curva
 
   for (let i = 0; i < pallini100.length; i++) {
     pallini100[i].isFemmina = (i < palliniColorati); // la proprietà isFemmina potrà valere solo true o false
     //(i < palliniColorati) è una condizione di confronto booleana: i è l'indice di ciasscun pallino (da 0 a 99), palliniColorati è il numero totale di pallini che dobbiamo colorare (tipo se in Angola la percentuale delle ragazze è 23%, palliniColorati sarà 23).
-  }
+  } //se il valore è maggiore, allora la condizione è falsa  e i pallini non si coloreranno
 
 
   /* CURVA MASCHI */
