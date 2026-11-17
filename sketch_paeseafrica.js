@@ -4,13 +4,13 @@ let valorePercentualeSotto18 = 0;
 let valorePercentualeSotto15 = 0;
 
 
-function preload() {
-  myTable = loadTable("assets/child_marriage.csv", "csv", "header");
-}
 
-function setup() {
+
+async function setup() {
   createCanvas(windowWidth, windowHeight);
   textFont('monospace');
+
+  myTable = await loadTable("assets/child_marriage.csv", ",", "header");
 
   // legge il parametro passato nell’URL --> tipo ?country=Algeria
   let params = getURLParams();

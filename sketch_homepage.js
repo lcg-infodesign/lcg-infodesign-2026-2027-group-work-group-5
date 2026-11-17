@@ -90,19 +90,19 @@ function draw() {
 
 function mousePressed() {
   if (mouseX > xAfrica && mouseX < xAfrica + larghezzaBarattolo && mouseY > yBarattoli && mouseY < yBarattoli + altezzaBarattolo) {
-    window.location.href = "Africa.html";
+    window.location.href = "africa.html";
   }
   if (mouseX > xAmerica && mouseX < xAmerica + larghezzaBarattolo && mouseY > yBarattoli && mouseY < yBarattoli + altezzaBarattolo) {
-    window.location.href = "America.html";
+    window.location.href = "america.html";
   }
   if (mouseX > xAsia && mouseX < xAsia + larghezzaBarattolo && mouseY > yBarattoli && mouseY < yBarattoli + altezzaBarattolo) {
-    window.location.href = "Asia.html";
+    window.location.href = "asia.html";
   }
   if (mouseX > xEuropa && mouseX < xEuropa + larghezzaBarattolo && mouseY > yBarattoli && mouseY < yBarattoli + altezzaBarattolo) {
-    window.location.href = "Europa.html";
+    window.location.href = "europa.html";
   }
   if (mouseX > xOceania && mouseX < xOceania + larghezzaBarattolo && mouseY > yBarattoli && mouseY < yBarattoli + altezzaBarattolo) {
-    window.location.href = "Oceania.html";
+    window.location.href = "oceania.html";
   }
 }
 

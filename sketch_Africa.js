@@ -11,8 +11,6 @@ let paesiAfrica = [
   'United Republic of Tanzania', 'Togo', 'Tunisia', 'Uganda', 'Zambia', 'Zimbabwe'
 ];
 
-
-
 //griglia di pallini
 let diametro = 28;
 let spazioX = 140; //distanze orizzontali e verticali tra ogni pallino
@@ -20,14 +18,12 @@ let spazioY = 100;
 
 let hoveredCountry; //chiamo la variabile vuota del paese su cui va il mouse
 
-function preload() { //RICORDARSI DI CAMBIARLO PER ADATTARLO ALLA VERSIONE DI P5, QUINDI CON ASYNC SETUP E AWAIT 
-  // Caricamento della tabella nel preload
-  myTable = loadTable("assets/child_marriage.csv", "csv", "header");
-}
 
-function setup() {
+async function setup() {
   createCanvas(windowWidth, windowHeight);
   textFont('monospace');
+
+  myTable = await loadTable("assets/child_marriage.csv", ",", "header");
 }
 
 function draw() {
@@ -85,7 +81,7 @@ function mousePressed() {
   if (hoveredCountry) { //se ho cliccato sopra uno dei pallini corrispondenti al paese
     let encodedCountry = encodeURIComponent(hoveredCountry); //fa si che il programma capisca anche se le scritte hanno apostrofi o accenti
     
-    window.location.href = "paeseafrica.html?country=" + encodedCountry;
+    window.location.href = "paeseAfrica.html?country=" + encodedCountry;
   }
 }
 
