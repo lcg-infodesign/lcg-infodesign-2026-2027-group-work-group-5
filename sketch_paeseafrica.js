@@ -57,7 +57,7 @@ function percentualePaese() {
 
 
 function draw() {
-  background('#0A192F');
+  background(65, 32, 74);
 
   // titolo con il nome del paese 
   let nomePaese = "";
@@ -67,7 +67,7 @@ function draw() {
     } else {
     nomePaese = "PAESE NON SPECIFICATO"; // se non c'è scrive questo
   }
-  fill(255);
+  fill(248, 237, 255);
   noStroke();
   textSize(36);
   textAlign(LEFT, TOP);
@@ -83,7 +83,7 @@ function draw() {
   }
 
   textSize(14);
-  fill(180);
+  fill(248, 237, 255);
   text("Matrimoni precoci che coinvolgono femmine sotto i 18 anni: " + testoValoreSotto18, 60, 110);
 
   //testo femmine sotto i 15
@@ -96,7 +96,7 @@ function draw() {
   }
 
   textSize(14);
-  fill(180);
+  fill(248, 237, 255);
   text("Matrimoni precoci che coinvolgono femmine sotto i 15 anni: " + testoValoreSotto15, 60, 135);
 
 
@@ -174,13 +174,13 @@ function draw() {
 
     // Se il pallino fa parte delle sotto i 15, si sovrappone ed è più scuro
     if (p.isSotto15) {
-      fill('#1B4332'); 
-      stroke('#1B4332');
+      fill(234, 186, 160); 
+      noStroke();
     } else if (p.isSotto18) {
-      fill('#4E8A75'); 
-      stroke('#4E8A75');
+      fill(225,146,124); 
+      noStroke();
     } else {
-      fill(35, 45, 60);
+      fill(84, 59, 94);
       noStroke();
     }
 
@@ -189,25 +189,6 @@ function draw() {
     circle(p.x, p.y, diametroPallino);
   }
 
-
-  /* DISEGNO LEGENDA */
-  let legendX = centerX - 180;
-  let legendY = centerY + raggioCerchio + 45;
-
-  // Elemento Legenda 1: Sotto i 18 anni
-  noStroke();
-  fill('#4E8A75');
-  circle(legendX, legendY, 16);
-  fill(200);
-  textSize(13);
-  textAlign(LEFT, CENTER);
-  text("Minori di 18 anni", legendX + 20, legendY);
-
-  // Elemento Legenda 2: Sotto i 15 anni (Sottogruppo)
-  fill('#1B4332');
-  circle(legendX + 180, legendY, 16);
-  fill(200);
-  text("Minori di 15 anni (sottogruppo)", legendX + 200, legendY);
 }
 
 function windowResized() {
